@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="WpfBoxesProjectUI.Views.ShowBoxesByDateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfBoxesProjectUI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=ShowBoxesByDate}">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Show all box types that have not been purchased for:"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBox Text="{Binding Days, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="{Binding ErrorsCollection[Days], Mode=OneWay}" MaxLength="3"/>
+                <TextBlock Text="Days, "/>
+                <TextBox Text="{Binding Hours, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="{Binding ErrorsCollection[Hours], Mode=OneWay}" MaxLength="2"/>
+                <TextBlock Text="Hours, "/>
+                <TextBox Text="{Binding Minutes, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="{Binding ErrorsCollection[Minutes], Mode=OneWay}" MaxLength="2"/>
+                <TextBlock Text="Minutes, "/>
+                <TextBox Text="{Binding Seconds, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="{Binding ErrorsCollection[Seconds], Mode=OneWay}" MaxLength="2"/>
+                <TextBlock Text="Seconds."/>
+            </StackPanel>
+            <Button Content="Show" Command="{Binding ShowCommand}"/>
+            <TextBlock>
+                <TextBlock.Style>
+                    <Style TargetType = "TextBlock" BasedOn="{StaticResource mainStyle}">
+                        <Setter Property = "Text" Value = "" />
+                        <Style.Triggers>
+                            <DataTrigger Binding = "{Binding BoxesList.Count}" Value = "0">
+                                <Setter Property = "Text" Value = "No Match Found" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <ListView ItemsSource="{Binding BoxesList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Width: " />
+                            <TextBlock Text="{Binding Width}" FontWeight="Bold" />
+                            <TextBlock Text=", " />
+                            <TextBlock Text="Height: " />
+                            <TextBlock Text="{Binding Height}" FontWeight="Bold" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</UserControl>

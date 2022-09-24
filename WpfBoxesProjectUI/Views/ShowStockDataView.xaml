@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="WpfBoxesProjectUI.Views.ShowStockDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfBoxesProjectUI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=ShowStockData}">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="ButtomSize:"/>
+            <TextBox Text="{Binding ButtomSize, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="{Binding ErrorsCollection[ButtomSize], Mode=OneWay}"/>
+            <TextBlock Text="HeightSize:"/>
+            <TextBox Text="{Binding HeightSize, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="{Binding ErrorsCollection[HeightSize], Mode=OneWay}"/>
+            <Button Content="Search" Command="{Binding ShowStockDataCommand}"/>
+            <TextBlock>
+                <TextBlock.Style>
+                    <Style TargetType = "TextBlock" BasedOn="{StaticResource mainStyle}">
+                        <Setter Property = "Text" Value = "" />
+                        <Style.Triggers>
+                            <DataTrigger Binding = "{Binding SearchedStock}" Value = "{x:Null}">
+                                <Setter Property = "Text" Value = "No Match Found" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Style>
+                    <Style TargetType = "StackPanel">
+                        <Setter Property = "Visibility" Value = "Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding = "{Binding SearchedStock}" Value = "{x:Null}">
+                                <Setter Property = "Visibility" Value = "Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBlock Text="Buttom Size: "/>
+                <TextBlock Text="{Binding SearchedStock.BoxType.Width}" FontWeight="Bold"/>
+                <TextBlock Text=", Height Size: "/>
+                <TextBlock Text="{Binding SearchedStock.BoxType.Height}" FontWeight="Bold"/>
+                <TextBlock Text=", Amount: "/>
+                <TextBlock Text="{Binding SearchedStock.Amount}" FontWeight="Bold"/>
+                <TextBlock Text=", Last Purchase Date: "/>
+                <TextBlock Text="{Binding SearchedStock.LastPurchaseDate}" FontWeight="Bold"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
